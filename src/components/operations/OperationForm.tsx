@@ -32,6 +32,9 @@ const OperationForm: React.FC<OperationFormProps> = ({
   const [type, setType] = useState<"maintenance" | "repair" | "inspection">(
     operation?.type || "maintenance"
   );
+  const [frequency, setFrequency] = useState<"quotidienne" | "hebdomadaire" | "mensuelle">(
+    "hebdomadaire"
+  );
   const [eqId, setEqId] = useState(operation?.equipmentId || equipmentId || '');
   const [eqName, setEqName] = useState(operation?.equipmentName || equipmentName || '');
   const [date, setDate] = useState<Date>(operation?.date ? new Date(operation.date) : new Date());
@@ -116,6 +119,26 @@ const OperationForm: React.FC<OperationFormProps> = ({
               <SelectItem value="maintenance">Maintenance</SelectItem>
               <SelectItem value="repair">Réparation</SelectItem>
               <SelectItem value="inspection">Inspection</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        
+        {/* Fréquence */}
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="frequency" className="text-right">
+            Fréquence
+          </Label>
+          <Select 
+            value={frequency} 
+            onValueChange={(value: "quotidienne" | "hebdomadaire" | "mensuelle") => setFrequency(value)}
+          >
+            <SelectTrigger className="col-span-3">
+              <SelectValue placeholder="Sélectionner une fréquence" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="quotidienne">Quotidienne</SelectItem>
+              <SelectItem value="hebdomadaire">Hebdomadaire</SelectItem>
+              <SelectItem value="mensuelle">Mensuelle</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -226,7 +249,7 @@ const OperationForm: React.FC<OperationFormProps> = ({
       </div>
       
       <DialogFooter>
-        <Button type="submit">{isEditing ? "Modifier" : "Créer"}</Button>
+        <Button type="submit">{isEditing ? "Modifier" : "Effectuer"}</Button>
       </DialogFooter>
     </form>
   );

@@ -28,8 +28,8 @@ const OperationFormModal: React.FC<OperationFormModalProps> = ({
     onSave(operationData);
     
     toast({
-      title: operation ? "Opération modifiée" : "Opération planifiée",
-      description: `${operationData.name} a été ${operation ? "modifiée" : "planifiée"} avec succès.`,
+      title: operation ? "Opération modifiée" : "Opération effectuée",
+      description: `${operationData.name} a été ${operation ? "modifiée" : "effectuée"} avec succès.`,
     });
     
     onOpenChange(false);
@@ -39,11 +39,11 @@ const OperationFormModal: React.FC<OperationFormModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{operation ? "Modifier l'opération" : "Créer une opération"}</DialogTitle>
+          <DialogTitle>{operation ? "Modifier l'opération" : "Effectuer une opération"}</DialogTitle>
           <DialogDescription>
             {operation 
               ? "Modifier les détails de l'opération" 
-              : "Remplissez les informations pour créer une nouvelle opération"}
+              : "Remplissez les informations pour effectuer une nouvelle opération"}
           </DialogDescription>
         </DialogHeader>
         
