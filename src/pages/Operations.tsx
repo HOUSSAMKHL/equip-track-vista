@@ -38,15 +38,19 @@ import { useToast } from '@/hooks/use-toast';
 import OperationAnomalyModal from '@/components/OperationAnomalyModal';
 import OperationFormModal from '@/components/OperationFormModal';
 import OperationDetailModal from '@/components/OperationDetailModal';
+import { useAuth } from '@/context/AuthContext';
 
 const Operations = () => {
   const [operations, setOperations] = useState<OperationType[]>(operationData);
   const [searchQuery, setSearchQuery] = useState('');
   const { toast } = useToast();
+  const { user } = useAuth();
   const [selectedOperation, setSelectedOperation] = useState<OperationType | undefined>(undefined);
   const [anomalyModalOpen, setAnomalyModalOpen] = useState(false);
   const [operationFormModalOpen, setOperationFormModalOpen] = useState(false);
   const [operationDetailModalOpen, setOperationDetailModalOpen] = useState(false);
+
+  const isFormateur = user?.role === 'formateur';
 
   const filteredOperations = operations.filter(item => 
     item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -279,8 +283,8 @@ const Operations = () => {
               <TableHead>Type</TableHead>
               <TableHead>Équipement</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead>Durée</TableHead>
-              <TableHead>Technicien</TableHead>
+              {!isFormateur && <TableHead>Durée</TableHead>}
+              {!isFormateur && <TableHead>Responsable</TableHead>}
               <TableHead>Statut</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -316,18 +320,22 @@ const Operations = () => {
                     <span>{operation.date}</span>
                   </div>
                 </TableCell>
-                <TableCell>
-                  <div className="flex items-center">
-                    <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <span>{operation.duration}h</span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center">
-                    <User className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <span>{operation.performedBy}</span>
-                  </div>
-                </TableCell>
+                {!isFormateur && (
+                  <TableCell>
+                    <div className="flex items-center">
+                      <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
+                      <span>{operation.duration}h</span>
+                    </div>
+                  </TableCell>
+                )}
+                {!isFormateur && (
+                  <TableCell>
+                    <div className="flex items-center">
+                      <User className="h-4 w-4 mr-1 text-muted-foreground" />
+                      <span>{operation.performedBy}</span>
+                    </div>
+                  </TableCell>
+                )}
                 <TableCell>
                   <StatusBadge status={operation.status} type="operation" />
                 </TableCell>
