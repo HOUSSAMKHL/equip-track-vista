@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Activity, 
@@ -156,7 +157,7 @@ const Operations = () => {
         actions={
           <Button onClick={handleAddOperation}>
             <Plus className="mr-2 h-4 w-4" />
-            Planifier une opération
+            Créer une opération
           </Button>
         }
       />

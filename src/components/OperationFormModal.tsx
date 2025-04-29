@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -99,11 +98,11 @@ const OperationFormModal: React.FC<OperationFormModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{operation ? "Modifier l'opération" : "Planifier une opération"}</DialogTitle>
+          <DialogTitle>{operation ? "Modifier l'opération" : "Créer une opération"}</DialogTitle>
           <DialogDescription>
             {operation 
               ? "Modifier les détails de l'opération" 
-              : "Remplissez les informations pour planifier une nouvelle opération"}
+              : "Remplissez les informations pour créer une nouvelle opération"}
           </DialogDescription>
         </DialogHeader>
         
@@ -249,7 +248,7 @@ const OperationFormModal: React.FC<OperationFormModalProps> = ({
           </div>
           
           <DialogFooter>
-            <Button type="submit">{operation ? "Modifier" : "Planifier"}</Button>
+            <Button type="submit">{operation ? "Modifier" : "Créer"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

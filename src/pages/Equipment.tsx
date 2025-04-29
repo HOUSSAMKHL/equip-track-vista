@@ -288,7 +288,7 @@ const Equipment = () => {
                       )}
                       <DropdownMenuItem onClick={() => handleOpenOperationForm(item)}>
                         <Settings className="h-4 w-4 mr-2" />
-                        Planifier une opération
+                        Créer une opération
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={() => handleDeleteEquipment(item)}
