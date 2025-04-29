@@ -13,6 +13,20 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { DialogFooter } from "@/components/ui/dialog";
 
+// Predefined operation names
+const OPERATION_NAMES = [
+  "Nettoyage des filtres",
+  "Changement de l'huile",
+  "Inspection de routine",
+  "Étalonnage des capteurs",
+  "Remplacement des pièces usées",
+  "Vérification électrique",
+  "Maintenance préventive",
+  "Mise à jour du logiciel",
+  "Diagnostic général",
+  "Lubrification des composants"
+];
+
 interface OperationFormProps {
   operation?: Operation;
   equipmentId?: string;
@@ -29,9 +43,6 @@ const OperationForm: React.FC<OperationFormProps> = ({
   isEditing
 }) => {
   const [name, setName] = useState(operation?.name || '');
-  const [type, setType] = useState<"maintenance" | "repair" | "inspection">(
-    operation?.type || "maintenance"
-  );
   const [frequency, setFrequency] = useState<"quotidienne" | "hebdomadaire" | "mensuelle">(
     "hebdomadaire"
   );
@@ -48,7 +59,6 @@ const OperationForm: React.FC<OperationFormProps> = ({
   useEffect(() => {
     if (operation) {
       setName(operation.name);
-      setType(operation.type);
       setEqId(operation.equipmentId);
       setEqName(operation.equipmentName);
       setDate(operation.date ? new Date(operation.date) : new Date());
@@ -58,7 +68,6 @@ const OperationForm: React.FC<OperationFormProps> = ({
     } else {
       // Reset form for new operations
       setName('');
-      setType('maintenance');
       setEqId(equipmentId || '');
       setEqName(equipmentName || '');
       setDate(new Date());
@@ -73,7 +82,7 @@ const OperationForm: React.FC<OperationFormProps> = ({
     
     const operationData: Partial<Operation> = {
       name,
-      type,
+      type: 'maintenance', // Default type as we removed the type selection
       equipmentId: eqId,
       equipmentName: eqName,
       date: format(date, 'yyyy-MM-dd'),
@@ -94,31 +103,17 @@ const OperationForm: React.FC<OperationFormProps> = ({
           <Label htmlFor="name" className="text-right">
             Nom
           </Label>
-          <Input 
-            id="name" 
-            value={name} 
-            onChange={(e) => setName(e.target.value)}
-            className="col-span-3" 
-            required
-          />
-        </div>
-        
-        {/* Type */}
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="type" className="text-right">
-            Type
-          </Label>
           <Select 
-            value={type} 
-            onValueChange={(value: "maintenance" | "repair" | "inspection") => setType(value)}
+            value={name} 
+            onValueChange={setName}
           >
             <SelectTrigger className="col-span-3">
-              <SelectValue placeholder="Sélectionner un type" />
+              <SelectValue placeholder="Sélectionner une opération" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="maintenance">Maintenance</SelectItem>
-              <SelectItem value="repair">Réparation</SelectItem>
-              <SelectItem value="inspection">Inspection</SelectItem>
+              {OPERATION_NAMES.map((opName) => (
+                <SelectItem key={opName} value={opName}>{opName}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
